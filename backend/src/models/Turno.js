@@ -1,18 +1,20 @@
 const { Schema, model } = require('mongoose');
 
-const PessoaSchema = new Schema({
-    nome: {
+const TurnoSchema = new Schema({
+    CPF: {
         type: String,
         required: true,
     },
-    sobrenome: {
+
+    entrada: {
         type: String,
         required: true,
     },
-    niver: {
+
+    saida: {
         type: String,
         required: true,
-    }
+    },
 });
 
-module.exports = model('Pessoa', PessoaSchema);
+module.exports = model('Turno', TurnoSchema);
