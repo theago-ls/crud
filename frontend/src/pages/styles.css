@@ -1,0 +1,39 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;  
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.formContainer .form-group {
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+}
+
+.formContainer .form-group label{
+    display: inline-block;
+    width: 200px;
+    text-align: right; 
+}
+
+.formContainer .form-group input{
+    width: 250px;
+    height: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.formContainer .form-group select{
+    width: 270px;
+    height: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#enviar {
+    margin-top: 50px;
+    margin-left: 200px;
+}
