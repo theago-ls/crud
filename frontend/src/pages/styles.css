@@ -1,9 +1,43 @@
+.mainContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+table {
+    border: 1px solid #92FF30;
+    min-width: 800px;
+}
+
+/* Tabela */
+#titulosTable{
+    border: 2px solid black;
+    background-color: #CFE8E3;
+    text-align: center; 
+}
+
+#tabela tr:nth-child(even){
+    background-color: #E4FFE3;
+}
+
+#tabela #valoresTable:nth-child(odd){
+    background-color: #F0FFF8;
+}
+
+#tabela #valoresTable:hover {
+    background-color: #D3ECFE;
+    cursor: pointer;
+    text-align: center; 
+}
+
+/* -------- */
+
 .formContainer {
     display: flex;
     flex-direction: column;
-    width: 100%;  
-    justify-content: center;
-    align-items: center;
+    width: auto;  
     padding: 20px 0;
 }
 
@@ -15,7 +49,7 @@
 
 .formContainer .form-group label{
     display: inline-block;
-    width: 200px;
+    width: 160px;
     text-align: right; 
 }
 
@@ -33,7 +67,64 @@
     margin-left: 10px;
 }
 
-#enviar {
+.buttonContainer {
+    display: flex;
     margin-top: 50px;
-    margin-left: 200px;
+    margin-left: 35%;
+    justify-content: center;
+}
+
+.buttonContainer #enviar, #atualizar, #voltar, #deletar, #adicionar {
+    margin-left: 10px;
+    height: 40px;
+    width: auto; 
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.buttonContainer #enviar:hover, #atualizar:hover, #voltar:hover, #adicionar:hover {
+    filter: brightness(120%);
+    cursor: pointer;
+}
+
+.buttonContainer #deletar:hover {
+    background-color: white;
+    color: #FF4662;
+    cursor: pointer
+}
+
+.buttonContainer #enviar {
+    background-color: #47E823;
+    color: white;
+    border-color: #33FF89;
+}
+
+.buttonContainer #deletar {
+    background-color: #FF4662;
+    color: white;
+    border-color: #FF9A9A;
+}
+
+
+.buttonContainer #atualizar {
+    background-color: #47E823;
+    color: white;
+    border-color: #33FF89;
+}
+
+#adicionar {
+    margin-top: 30px;
+    margin-left: 40%;
+    height: 40px;
+    width: 200px;    
+    background-color: #47E823;
+    color: white;
+    border-color: #33FF89;
+}
+
+.buttonContainer #voltar { 
+    background-color: #4194FF;
+    color: white;
+    border-color: #7DCEE8;     
 }

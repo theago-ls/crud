@@ -1,65 +1,90 @@
 const Paciente = require('../models/Paciente');
 
 module.exports = {
-    async index(req, res){
-        const pacientes = await Paciente.find({});
-        return res.json(pacientes);
-    },
-
-    async store(req, res){
-        const { CPF } = req.body;
-        const novoPaciente = req.body;
-    
-        const pacienteExists = await Paciente.findOne({
-            CPF
-        });
-    
-        if(pacienteExists){
-            return res.json(pacienteExists);
+    async index(req, res) {
+        try {
+            const pacientes = await Paciente.find({});
+            return res.json(pacientes);
+        } catch (err) {
+            throw err;
         }
-    
-        const newPaciente = await Paciente.create(novoPaciente);
-    
-        if(newPaciente)
-            return res.json(newPaciente);
-        else
-            return res.json({"message": 'Paciente não foi salvo!'});    
     },
 
-    async update(req, res){
+    async store(req, res) {
         const { CPF } = req.body;
-
-        const pacienteExists = await Paciente.findOneAndUpdate({
-            CPF
-        }, novoPaciente, { new: true });
-
-        if(pacienteExists)
-            return res.json(pacienteExists);
-        else
-            return res.json({"message": 'Enfermeiro não encontrado!'});       
-    },
-
-    async delete(req, res){
         const novoPaciente = req.body;
 
-        if(pacienteExists){
-            const newPaciente = await Paciente.findOneAndDelete(novoPaciente);
-            
-            return res.json(newPaciente);
-        }else
-            return res.json({"message": 'Paciente não encontrado!'});       
+        try {
+            const pacienteExists = await Paciente.findOne({
+                CPF
+            });
+
+            if (pacienteExists) {
+                return res.json(pacienteExists);
+            }
+        } catch (err) {
+            throw err;
+        }
+
+        try {
+            const newPaciente = await Paciente.create(novoPaciente);
+
+            if (newPaciente)
+                return res.json(newPaciente);
+            else
+                return res.json({ 'message': 'Paciente não foi salvo!' });
+        } catch (err) {
+            throw err;
+        }
     },
 
-    async search(req, res){
+    async update(req, res) {
+        const { CPF } = req.body;
+        const novoPaciente = req.body;
+
+        try {
+            const pacienteExists = await Paciente.findOneAndUpdate({
+                CPF
+            }, novoPaciente, { new: true });
+
+            if (pacienteExists)
+                return res.json(pacienteExists);
+            else
+                return res.json({ 'message': 'Paciente não encontrado!' });
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    async delete(req, res) {
+        const delPaciente = req.body;
+
+        try {
+            const deletedPaciente = await Paciente.findOneAndDelete(delPaciente);
+
+            if (deletedPaciente)
+                return res.json(deletedPaciente);
+            else
+                return res.json({ 'message': 'Paciente não encontrado!' });
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    async search(req, res) {
         const { CPF } = req.body;
 
-        const pacienteExists = await Paciente.findOne({
-            CPF
-        });
+        try {
+            const pacienteExists = await Paciente.findOne({
+                CPF
+            });
 
-        if(pacienteExists)         
-            return res.json(newPaciente);
-        else
-            return res.json({"message": 'Paciente não encontrado!'});       
+            if (pacienteExists)
+                return res.json(newPaciente);
+            else
+                return res.json({ 'message': 'Paciente não encontrado!' });
+        } catch (err) {
+            throw err;
+        }
     }
 };

@@ -4,13 +4,15 @@ import './styles.css';
 
 import api from '../services/api';
 
-export default function Pacientes(){
-    const [paciente, setPaciente] = useState({
+export default function Medicos(){
+    const [medico, setMedico] = useState({
+        CRM: '',
         nome: '',
         CPF: '',
         sexo: '',
         telefone: '',
         dataNascimento: '',
+        dataAdmissao: '',
         endereco: {
             logradouro: '',
             numero: '',
@@ -19,34 +21,35 @@ export default function Pacientes(){
             bairro: '',
             cidade: '',
             estado: ''
-        }
+        },
+        area: ''
     });    
-    const [viewPaciente, setView] = useState(false);
-    const [addPaciente, setAdd] = useState(false);
-    const [updPacientes, setUpd] = useState(false);
-    const [pacientesList, setPacientes] = useState([]);
+    const [viewMedico, setView] = useState(false);
+    const [addMedico, setAdd] = useState(false);
+    const [updMedicos, setUpd] = useState(false);
+    const [medicosList, setMedicos] = useState([]);
 
     useEffect(() => {
         async function fetchData(){
-            const response = await api.get('/pacientes');
+            const response = await api.get('/medicos');
 
             if(response.status === 200){
-                setPacientes(response.data);
+                setMedicos(response.data);
             }else{
                 alert(response.data.message);
             }           
         }
 
         fetchData();
-    }, [updPacientes]);
+    }, [updMedicos]);
 
     async function handleSubmit(e){     
         e.preventDefault();  
                 
-        const response = await api.post('/pacientes/add', paciente);
+        const response = await api.post('/medicos/add', medico);
 
         if(response.status === 200){
-            let aux = !updPacientes;
+            let aux = !updMedicos;
             setUpd(aux);
             setView(false);
             setAdd(false);
@@ -56,10 +59,10 @@ export default function Pacientes(){
     }
 
     async function handleDelete(){
-        const response = await api.post('/pacientes/delete', paciente);
+        const response = await api.post('/medicos/delete', medico);
 
         if(response.status === 200){
-            let aux = !updPacientes;
+            let aux = !updMedicos;
             setUpd(aux);
             setView(false);
         }else{
@@ -68,10 +71,10 @@ export default function Pacientes(){
     }
 
     async function handleUpdate(){
-        const response = await api.post('/pacientes/update', paciente);
+        const response = await api.post('/medicos/update', medico);
 
         if(response.status === 200){
-            let aux = !updPacientes;
+            let aux = !updMedicos;
             setUpd(aux);
             setView(false);
         }else{
@@ -80,7 +83,7 @@ export default function Pacientes(){
     }
 
     function loadButton(){
-        if(!addPaciente){
+        if(!addMedico){
             return (
                 <div className="buttonContainer">
                     <input id="voltar" type="button" value="Voltar" onClick={voltar}/>
@@ -92,19 +95,21 @@ export default function Pacientes(){
             return(
                 <div className="buttonContainer">
                     <input id="voltar" type="button" value="Voltar" onClick={voltar}/>
-                    <input id="enviar" type="submit" value="Salvar paciente" />
+                    <input id="enviar" type="submit" value="Salvar médico" />
                 </div>
             );
         }
     }
 
     function showAdd(){
-        setPaciente({
+        setMedico({
+            CRM: '',
             nome: '',
             CPF: '',
             sexo: '',
             telefone: '',
             dataNascimento: '',
+            dataAdmissao: '',
             endereco: {
                 logradouro: '',
                 numero: '',
@@ -113,7 +118,8 @@ export default function Pacientes(){
                 bairro: '',
                 cidade: '',
                 estado: ''
-            }
+            },
+            area: ''
         });
         setView(true);
         setAdd(true);
@@ -124,99 +130,114 @@ export default function Pacientes(){
         setView(false);
     }
 
-    function handlePaciente(paciente){
-        setPaciente(paciente);
+    function handleMedico(medico){
+        setMedico(medico);
         setView(true);
     }
 
     return(
         <div className="mainContainer">
             <div>                                      
-                {!viewPaciente && (
+                {!viewMedico && (
                     <div>
                         <table id="tabela">
                             <tbody>
                                 <tr id="titulosTable">
-                                    <td>Nome</td>
-                                    <td>Sexo</td>
-                                    <td>Idade</td>
+                                    <td>Nome</td>                                  
+                                    <td>CRM</td>
+                                    <td>Data de admissão</td>
                                 </tr>
-                                {pacientesList.length > 0 ? (pacientesList.map(paciente => (
-                                    <tr key={paciente._id} id="valoresTable" onClick={() => handlePaciente(paciente)}>
-                                        <td>{paciente.nome}</td>
-                                        <td>{paciente.sexo}</td>
-                                        <td>{paciente.dataNascimento}</td>                                    
+                                {medicosList.length > 0 ? (medicosList.map(medico => (
+                                    <tr key={medico._id} id="valoresTable" onClick={() => handleMedico(medico)}>
+                                        <td>{medico.nome}</td>
+                                        <td>{medico.CRM}</td>
+                                        <td>{medico.dataAdmissao}</td>
                                     </tr>
                                 ))) : (<tr key={'vazio'} id="valoresTable" >
                                         <td colSpan="3" style={{textAlign: 'center'}}>Vazio.</td>                                                                          
                                     </tr>)}
                             </tbody>
                         </table> 
-                        <button id="adicionar" onClick={() => showAdd()}>Adicionar paciente</button>                        
+                        <button id="adicionar" onClick={() => showAdd()}>Adicionar médico</button>                        
                     </div>                  
                     )                        
                 }                                     
             </div>
-            {(viewPaciente || addPaciente) && (<div >
+            {(viewMedico || addMedico) && (<div >
                 <form className="formContainer" onSubmit={(e) => handleSubmit(e)}>
                     <div className="form-group">
                         <label htmlFor="nome" >Nome:</label>
-                        <input id="nome" value={paciente.nome || ''} onChange={(e) => setPaciente({ ...paciente, nome: e.target.value })} required />
+                        <input id="nome" value={medico.nome || ''} onChange={(e) => setMedico({ ...medico, nome: e.target.value })} required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="crm" >CRM:</label>
+                        <input id="crm" value={medico.CRM || ''} onChange={(e) => setMedico({ ...medico, CRM: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="cpf">CPF:</label>
-                        <input id="cpf" value={paciente.CPF || ''} onChange={(e) => setPaciente({ ...paciente, CPF: e.target.value })} required />
+                        <input id="cpf" value={medico.CPF || ''} onChange={(e) => setMedico({ ...medico, CPF: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo:</label>
-                        <input id="sexo" value={paciente.sexo || ''} type="select" onChange={(e) => setPaciente({ ...paciente, sexo: e.target.value })} required />
+                        <input id="sexo" value={medico.sexo || ''} type="select" onChange={(e) => setMedico({ ...medico, sexo: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="tel">Telefone:</label>
-                        <input id="tel" value={paciente.telefone || ''} onChange={(e) => setPaciente({ ...paciente, telefone: e.target.value })} required />
+                        <input id="tel" value={medico.telefone || ''} onChange={(e) => setMedico({ ...medico, telefone: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="data">Data de nascimento:</label>
-                        <input id="data" value={paciente.dataNascimento || ''} type="date" onChange={(e) => setPaciente({ ...paciente, dataNascimento: e.target.value })} required />
+                        <input id="data" value={medico.dataNascimento || ''} type="date" onChange={(e) => setMedico({ ...medico, dataNascimento: e.target.value })} required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="dataAdmissao">Data de admissão:</label>
+                        <input id="dataAdmissao" value={medico.dataAdmissao || ''} type="date" onChange={(e) => setMedico({ ...medico, dataAdmissao: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="log">Logradouro:</label>
-                        <input id="log" value={paciente.endereco.logradouro || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, logradouro: e.target.value } })} required />
+                        <input id="log" value={medico.endereco.logradouro || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, logradouro: e.target.value } })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="num">Número:</label>
-                        <input id="num" value={paciente.endereco.numero || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, numero: e.target.value } })} required />
+                        <input id="num" value={medico.endereco.numero || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, numero: e.target.value } })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="compl">Complemento:</label>
-                        <input id="compl" value={paciente.endereco.complemento || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, complemento: e.target.value } })} />
+                        <input id="compl" value={medico.endereco.complemento || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, complemento: e.target.value } })} />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="cep">CEP:</label>
-                        <input id="cep" value={paciente.endereco.cep || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, cep: e.target.value } })} required />
+                        <input id="cep" value={medico.endereco.cep || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, cep: e.target.value } })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="bairro">Bairro:</label>
-                        <input id="bairro" value={paciente.endereco.bairro || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, bairro: e.target.value } })} required />
+                        <input id="bairro" value={medico.endereco.bairro || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, bairro: e.target.value } })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade:</label>
-                        <input id="cidade" value={paciente.endereco.cidade || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, cidade: e.target.value } })} required />
+                        <input id="cidade" value={medico.endereco.cidade || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, cidade: e.target.value } })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="estado">Estado:</label>
-                        <input id="estado" value={paciente.endereco.estado || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, estado: e.target.value } })} required />
+                        <input id="estado" value={medico.endereco.estado || ''} onChange={(e) => setMedico({ ...medico, endereco: { ...medico.endereco, estado: e.target.value } })} required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="area">Área:</label>
+                        <input id="area" value={medico.area || ''} onChange={(e) => setMedico({ ...medico, area: e.target.value })} required />
                     </div>
                     { loadButton()                    
                     }

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 
-import io from 'socket.io-client';
-
-import api from './services/api';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Paciente from './pages/Pacientes';
+import Pacientes from './pages/Pacientes';
+import Medicos from './pages/Medicos';
+import Enfermeiros from './pages/Enfermeiros';
+import Consultas from './pages/Consultas';
 
 function App() {
   return (
@@ -35,7 +33,7 @@ function App() {
       </header>
 
       <section>         
-          <Paciente />           
+          <Consultas />           
       </section>
 
       <footer>  
@@ -43,7 +41,7 @@ function App() {
             © 2023 Zerotype. All Rights Reserved.
           </p>      
           <div className="connect">
-            <a href="http://freewebsitetemplates.com/go/facebook/" target="_blank" className="facebook"></a><a href="http://freewebsitetemplates.com/go/googleplus/" target="_blank" className="googleplus"></a><a href="http://freewebsitetemplates.com/go/twitter/" target="_blank" className="twitter"></a><a href="http://www.freewebsitetemplates.com/misc/contact/" target="_blank" className="tumbler"></a>
+            <a href="http://freewebsitetemplates.com/go/facebook/" target="_blank" rel="noopener noreferrer" className="facebook"></a><a href="http://freewebsitetemplates.com/go/googleplus/" target="_blank" className="googleplus"></a><a href="http://freewebsitetemplates.com/go/twitter/" target="_blank" className="twitter"></a><a href="http://www.freewebsitetemplates.com/misc/contact/" target="_blank" className="tumbler"></a>
           </div>         
       </footer>
     </div>    

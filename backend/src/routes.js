@@ -50,6 +50,5 @@ routes.post('/diagnosticos/search', DiagnosticoController.search);
 routes.get('/turnos', TurnoController.index);
 routes.post('/turnos/add', TurnoController.store);
 routes.post('/turnos/delete', TurnoController.delete);
-routes.post('/turnos/search', TurnoController.search);
 
 module.exports = routes;
