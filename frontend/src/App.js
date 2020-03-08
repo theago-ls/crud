@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import Pacientes from './pages/Pacientes';
 import Medicos from './pages/Medicos';
 import Enfermeiros from './pages/Enfermeiros';
 import Consultas from './pages/Consultas';
+import Diagnosticos from './pages/Diagnosticos';
+import Turnos from './pages/Turnos';
 
 function App() {
+  const [page, setPage] = useState('H');
+
+  function selectedPage(){
+    switch(page){
+      case 'H':
+        return <div>Home</div>;
+      case 'P':
+        return <Pacientes />;
+      case 'E':
+        return <Enfermeiros />;
+      case 'M':
+        return <Medicos />;
+      case 'C':
+        return <Consultas />;
+      case 'T':
+        return <Turnos />;
+      case 'D':
+        return <Diagnosticos />;
+    }
+  }
+
   return (
     <div className="App">
       <header>        
@@ -15,25 +38,31 @@ function App() {
           </div>
           <nav>
             <li>
-              <a href="index.html">Home</a>
+              <a href={() => setPage('H')}>Home</a>
             </li>
             <li>
-              <a href="features.html">Pacientes</a>
+              <a href={() => setPage('P')}>Pacientes</a>
             </li>
             <li>
-              <a href="news.html">Médicos</a>
+              <a href={() => setPage('M')}>Médicos</a>
             </li>
             <li className="active">
-              <a href="about.html">Enfermeiros</a>
+              <a href={() => setPage('E')}>Enfermeiros</a>
             </li>
             <li>
-              <a href="contact.html">Consultas</a>
+              <a href={() => setPage('C')}>Consultas</a>
+            </li>
+            <li>
+              <a href={() => setPage('T')}>Turnos</a>
+            </li>
+            <li>
+              <a href={() => setPage('D')}>Diagnósticos</a>
             </li>
           </nav>    
       </header>
 
       <section>         
-          <Consultas />           
+          {selectedPage}         
       </section>
 
       <footer>  

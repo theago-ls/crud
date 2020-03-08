@@ -83,7 +83,7 @@ img {
 }
 .App nav li {
 	float: left;
-	width: 160px;
+	width: 120px;
 	text-align: center;
 }
 .App nav li a {
@@ -94,6 +94,7 @@ img {
 }
 .App nav li a:hover {
 	color: #000;
+	cursor: pointer;
 }
 .App nav li.active a {
 	color: #f99600;

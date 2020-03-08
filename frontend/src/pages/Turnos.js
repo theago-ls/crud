@@ -4,31 +4,29 @@ import './styles.css';
 
 import api from '../services/api';
 
-export default function Consultas(){
-    const [consulta, setConsulta] = useState({
-        paciente: '',
-        medico: '',        
-        data: '',
-        horario: '',
-        tipo: ''
+export default function Turnos(){
+    const [turno, setTurno] = useState({
+        CPF: '',
+        entrada: '',        
+        saida: ''
     });    
-    const [viewConsulta, setView] = useState(false);
-    const [addConsulta, setAdd] = useState(false);
-    const [updConsultas, setUpd] = useState(false);
-    const [consultasList, setConsultas] = useState([]);
-    const [pacientesList, setPacientes] = useState([]);
+    const [viewTurno, setView] = useState(false);
+    const [addTurno, setAdd] = useState(false);
+    const [updTurnos, setUpd] = useState(false);
+    const [turnosList, setTurnos] = useState([]);
+    const [enfermeirosList, setEnfermeiros] = useState([]);
     const [medicosList, setMedicos] = useState([]);
 
     useEffect(() => {
         async function fetchData(){
-            const response = await api.get('/consultas');
+            const response = await api.get('/turnos');
 
             if(response.status === 200){
-                setConsultas(response.data);
+                setTurnos(response.data);
             }else{
                 alert(response.data.message);
-            }                
-               
+            }      
+            
             const response2 = await api.get('/medicos');
 
             if(response2.status === 200){
@@ -40,22 +38,22 @@ export default function Consultas(){
             const response3 = await api.get('/pacientes');
 
             if(response3.status === 200){
-                setPacientes(response3.data);
+                setEnfermeiros(response3.data);
             }else{
                 alert(response3.data.message);
             }  
         }
 
         fetchData();
-    }, [updConsultas]);
+    }, [updTurnos]);
 
     async function handleSubmit(e){     
         e.preventDefault();  
         
-        const response = await api.post('/consultas/add', consulta);
+        const response = await api.post('/turnos/add', turno);
 
         if(response.status === 200){
-            let aux = !updConsultas;
+            let aux = !updTurnos;
             setUpd(aux);
             setView(false);
             setAdd(false);
@@ -65,10 +63,10 @@ export default function Consultas(){
     }
 
     async function handleDelete(){
-        const response = await api.post('/consultas/delete', consulta);
+        const response = await api.post('/turnos/delete', turno);
 
         if(response.status === 200){
-            let aux = !updConsultas;
+            let aux = !updTurnos;
             setUpd(aux);
             setView(false);
         }else{
@@ -77,10 +75,10 @@ export default function Consultas(){
     }
 
     async function handleUpdate(){
-        const response = await api.post('/consultas/update', consulta);
+        const response = await api.post('/turnos/update', turno);
 
         if(response.status === 200){
-            let aux = !updConsultas;
+            let aux = !updTurnos;
             setUpd(aux);
             setView(false);
         }else{
@@ -89,7 +87,7 @@ export default function Consultas(){
     }
 
     function loadButton(){
-        if(!addConsulta){
+        if(!addTurno){
             return (
                 <div className="buttonContainer">
                     <input id="voltar" type="button" value="Voltar" onClick={voltar}/>
@@ -101,19 +99,17 @@ export default function Consultas(){
             return(
                 <div className="buttonContainer">
                     <input id="voltar" type="button" value="Voltar" onClick={voltar}/>
-                    <input id="enviar" type="submit" value="Salvar consulta" />
+                    <input id="enviar" type="submit" value="Salvar turno" />
                 </div>
             );
         }
     }
 
     function showAdd(){
-        setConsulta({
-            paciente: '',
-            medico: '',
-            data: '',
-            horario: '',
-            tipo: ''
+        setTurno({
+            CPF: '',
+            entrada: '',        
+            saida: ''
         });
         setView(true);
         setAdd(true);
@@ -124,74 +120,62 @@ export default function Consultas(){
         setView(false);
     }
 
-    function handleConsulta(consulta){
-        setConsulta(consulta);
+    function handleTurno(turno){
+        setTurno(turno);
         setView(true);
     }
 
     return(
         <div className="mainContainer">
             <div>                                      
-                {!viewConsulta && (
+                {!viewTurno && (
                     <div>
                         <table id="tabela">
                             <tbody>
                                 <tr id="titulosTable">
-                                    <td>Paciente</td>
-                                    <td>Médico</td>
-                                    <td>Data</td>
+                                    <td>CPF</td>
+                                    <td>Entrada</td>
+                                    <td>Saída</td>
                                 </tr>
-                                {consultasList.length > 0 ? (consultasList.map(consulta => (
-                                    <tr key={consulta._id} id="valoresTable" onClick={() => handleConsulta(consulta)}>
-                                        <td>{consulta.paciente.nome}</td>
-                                        <td>{consulta.medico.nome}</td>
-                                        <td>{consulta.data}</td>                                    
+                                {turnosList.length > 0 ? (turnosList.map(turno => (
+                                    <tr key={turno._id} id="valoresTable" onClick={() => handleTurno(turno)}>
+                                        <td>{turno.CPF}</td>
+                                        <td>{turno.entrada}</td>
+                                        <td>{turno.saida}</td>                                    
                                     </tr>
                                 ))) : (<tr key={'vazio'} id="valoresTable" >
                                         <td colSpan="3" style={{textAlign: 'center'}}>Vazio.</td>                                                                          
                                     </tr>)}
                             </tbody>
                         </table> 
-                        <button id="adicionar" onClick={() => showAdd()}>Adicionar consulta</button>                        
+                        <button id="adicionar" onClick={() => showAdd()}>Adicionar turno</button>                        
                     </div>                  
                     )                        
                 }                                     
             </div>
-            {(viewConsulta || addConsulta) && (<div >
+            {(viewTurno || addTurno) && (<div >
                 <form className="formContainer" onSubmit={(e) => handleSubmit(e)}>
                     <div className="form-group">
-                        <label htmlFor="paciente" >Paciente:</label>
-                        <select id="paciente" value={consulta.paciente || ''} readOnly onChange={(e) => setConsulta({ ...consulta, paciente: e.target.value })} required >
-                            <option></option>
-                            {pacientesList.map(paciente => (
-                                <option key={paciente._id} value={paciente._id}>{paciente.nome}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="medico">Médico:</label>
-                        <select id="medico" value={consulta.medico || ''} readOnly onChange={(e) => setConsulta({ ...consulta, medico: e.target.value })} required >
+                        <label htmlFor="funcionario">Funcionário:</label>
+                        <select id="funcionario" value={turno.medico || ''} readOnly onChange={(e) => setTurno({ ...turno, medico: e.target.value })} required >
                             <option></option>
                             {medicosList.map(medico => (
-                                <option key={medico._id} value={medico._id}>{medico.nome}</option>
+                                <option key={medico._id} value={medico.CPF}>{medico.nome}</option>
+                            ))}
+                            {enfermeirosList.map(enfermeiro => (
+                                <option key={enfermeiro._id} value={enfermeiro.CPF}>{enfermeiro.nome}</option>
                             ))}
                         </select>
                     </div>
-
+                
                     <div className="form-group">
-                        <label htmlFor="data">Data:</label>
-                        <input id="data" value={consulta.data || ''} type="date" onChange={(e) => setConsulta({ ...consulta, data: e.target.value })} required />
+                        <label htmlFor="entrada">Entrada:</label>
+                        <input id="entrada" value={turno.entrada || ''} onChange={(e) => setTurno({ ...turno, entrada: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="horario">Horário:</label>
-                        <input id="horario" value={consulta.horario || ''} onChange={(e) => setConsulta({ ...consulta, horario: e.target.value })} required />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="tipo">Tipo:</label>
-                        <input id="tipo" value={consulta.tipo || ''} onChange={(e) => setConsulta({ ...consulta, tipo: e.target.value })} required />
+                        <label htmlFor="saida">Saída:</label>
+                        <input id="saida" value={turno.saida || ''} onChange={(e) => setTurno({ ...turno, saida: e.target.value })} required />
                     </div>
                     { loadButton()                    
                     }
