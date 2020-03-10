@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import Pacientes from './pages/Pacientes';
@@ -9,27 +9,8 @@ import Diagnosticos from './pages/Diagnosticos';
 import Turnos from './pages/Turnos';
 
 function App() {
-  const [page, setPage] = useState('H');
-
-  function selectedPage(){
-    switch(page){
-      case 'H':
-        return <div>Home</div>;
-      case 'P':
-        return <Pacientes />;
-      case 'E':
-        return <Enfermeiros />;
-      case 'M':
-        return <Medicos />;
-      case 'C':
-        return <Consultas />;
-      case 'T':
-        return <Turnos />;
-      case 'D':
-        return <Diagnosticos />;
-    }
-  }
-
+  const [page, setPage] = useState(<div>Home</div>);
+    
   return (
     <div className="App">
       <header>        
@@ -38,39 +19,36 @@ function App() {
           </div>
           <nav>
             <li>
-              <a href={() => setPage('H')}>Home</a>
+  <a onClick={() => setPage(<div>HOME</div>)}>Home</a>
             </li>
             <li>
-              <a href={() => setPage('P')}>Pacientes</a>
+              <a onClick={() => setPage(<Pacientes />)}>Pacientes</a>
             </li>
             <li>
-              <a href={() => setPage('M')}>Médicos</a>
+              <a onClick={() => setPage(<Enfermeiros />)}>Médicos</a>
             </li>
             <li className="active">
-              <a href={() => setPage('E')}>Enfermeiros</a>
+              <a onClick={() => setPage(<Medicos />)}>Enfermeiros</a>
             </li>
             <li>
-              <a href={() => setPage('C')}>Consultas</a>
+              <a onClick={() => setPage(<Consultas />)}>Consultas</a>
             </li>
             <li>
-              <a href={() => setPage('T')}>Turnos</a>
-            </li>
-            <li>
-              <a href={() => setPage('D')}>Diagnósticos</a>
-            </li>
+              <a onClick={() => setPage(<Turnos />)}>Turnos</a>
+            </li>            
           </nav>    
       </header>
 
       <section>         
-          {selectedPage}         
+          {page}         
       </section>
 
       <footer>  
           <p>
-            © 2023 Zerotype. All Rights Reserved.
+          © Hospital Bela Vida. Todos direitos reservados. 
           </p>      
           <div className="connect">
-            <a href="http://freewebsitetemplates.com/go/facebook/" target="_blank" rel="noopener noreferrer" className="facebook"></a><a href="http://freewebsitetemplates.com/go/googleplus/" target="_blank" className="googleplus"></a><a href="http://freewebsitetemplates.com/go/twitter/" target="_blank" className="twitter"></a><a href="http://www.freewebsitetemplates.com/misc/contact/" target="_blank" className="tumbler"></a>
+            <a href="https://github.com/theago-ls" target="_blank" rel="noopener noreferrer" className="facebook"></a><a href="https://github.com/theago-ls" target="_blank" className="googleplus"></a><a href="https://github.com/theago-ls" target="_blank" className="twitter"></a><a href="https://github.com/theago-ls" target="_blank" className="tumbler"></a>
           </div>         
       </footer>
     </div>    
