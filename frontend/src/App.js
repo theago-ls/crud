@@ -10,7 +10,43 @@ import Turnos from './pages/Turnos';
 
 function App() {
   const [page, setPage] = useState(<div>Home</div>);
-    
+  const [active, setActive] = useState(1);
+  
+  function setClass(li){
+    if(li === active)
+      return "active";
+    else
+      return "";
+  }
+
+  function setPagina(page){
+    switch(page){
+      case 1:
+        setPage(<div>HOME</div>);
+        setActive(1);
+        break;
+      case 2:
+        setPage(<Pacientes />);
+        setActive(2);
+        break;
+      case 3:
+        setPage(<Enfermeiros />);
+        setActive(3);
+        break;
+      case 4:
+        setPage(<Medicos />);
+        setActive(4);
+        break;
+      case 5:
+        setPage(<Consultas />);
+        setActive(5);
+        break;
+      case 6:
+        setPage(<Turnos />);
+        setActive(6);
+        break;
+    }
+  }
   return (
     <div className="App">
       <header>        
@@ -18,23 +54,23 @@ function App() {
             <a href="https://www.freepik.com/free-photos-vectors/logo">Hospital Bela Vida</a>
           </div>
           <nav>
-            <li>
-  <a onClick={() => setPage(<div>HOME</div>)}>Home</a>
+            <li className={`${setClass(1)}`}>
+  <a onClick={() => setPagina(1)}>Home</a>
             </li>
-            <li>
-              <a onClick={() => setPage(<Pacientes />)}>Pacientes</a>
+            <li className={`${setClass(2)}`}>
+              <a onClick={() => setPagina(2)}>Pacientes</a>
             </li>
-            <li>
-              <a onClick={() => setPage(<Enfermeiros />)}>Médicos</a>
+            <li className={`${setClass(3)}`}>
+              <a onClick={() => setPagina(3)}>Médicos</a>
             </li>
-            <li className="active">
-              <a onClick={() => setPage(<Medicos />)}>Enfermeiros</a>
+            <li className={`${setClass(4)}`}>
+              <a onClick={() => setPagina(4)}>Enfermeiros</a>
             </li>
-            <li>
-              <a onClick={() => setPage(<Consultas />)}>Consultas</a>
+            <li className={`${setClass(5)}`}>
+              <a onClick={() => setPagina(5)}>Consultas</a>
             </li>
-            <li>
-              <a onClick={() => setPage(<Turnos />)}>Turnos</a>
+            <li className={`${setClass(6)}`}>
+              <a onClick={() => setPagina(6)}>Turnos</a>
             </li>            
           </nav>    
       </header>
