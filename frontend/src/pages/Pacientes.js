@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import './styles.css';
 
 import api from '../services/api';
+import { Modal } from 'react-bootstrap';
+
+import Diagnostico from './Diagnosticos';
 
 export default function Pacientes(){
     const [paciente, setPaciente] = useState({
@@ -19,12 +22,22 @@ export default function Pacientes(){
             bairro: '',
             cidade: '',
             estado: ''
+        },
+        diagnostico: {
+            medico: '',
+            paciente: '',
+            doenca: '',
+            estagio: '',
+            observacao: '',
+            data: '',
         }
     });    
     const [viewPaciente, setView] = useState(false);
     const [addPaciente, setAdd] = useState(false);
     const [updPacientes, setUpd] = useState(false);
     const [pacientesList, setPacientes] = useState([]);
+    const [modal, setModal] = useState(false);
+
 
     useEffect(() => {
         async function fetchData(){
@@ -113,6 +126,14 @@ export default function Pacientes(){
                 bairro: '',
                 cidade: '',
                 estado: ''
+            },
+            diagnostico: {
+                medico: '',
+                paciente: '',
+                doenca: '',
+                estagio: '',
+                observacao: '',
+                data: '',
             }
         });
         setView(true);
@@ -127,6 +148,10 @@ export default function Pacientes(){
     function handlePaciente(paciente){
         setPaciente(paciente);
         setView(true);
+    }
+
+    function setDiagnostico(diagnostico){
+        setPaciente({...paciente, diagnostico: diagnostico});
     }
 
     return(
@@ -218,6 +243,20 @@ export default function Pacientes(){
                         <label htmlFor="estado">Estado:</label>
                         <input id="estado" value={paciente.endereco.estado || ''} onChange={(e) => setPaciente({ ...paciente, endereco: { ...paciente.endereco, estado: e.target.value } })} required />
                     </div>
+
+                    <div className="form-group">
+                        <label htmlFor="diagnostico">Diagnóstico:</label>
+                        <button id="diagnostico" onClick={(e) => setModal(true)} >Adicionar</button>
+                    </div>
+                    {modal && (
+                        <Modal show={modal} onHide={() => setModal(false)}>
+                            <Modal.Header>
+                                Diagnóstico
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Diagnostico paciente={paciente} callback={setDiagnostico, setModal}/>
+                            </Modal.Body>
+                        </Modal>)}
                     { loadButton()                    
                     }
                 </form>
