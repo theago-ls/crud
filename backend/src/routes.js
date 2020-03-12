@@ -3,7 +3,6 @@ const ConsultaController = require('./controllers/ConsultaController');
 const PacienteController = require('./controllers/PacienteController');
 const MedicoController = require('./controllers/MedicoController');
 const EnfermeiroController = require('./controllers/EnfermeiroController');
-const DiagnosticoController = require('./controllers/DiagnosticoController');
 const TurnoController = require('./controllers/TurnoController');
 
 const routes = express.Router();
@@ -37,13 +36,6 @@ routes.post('/medicos/add', MedicoController.store);
 routes.post('/medicos/update', MedicoController.update);
 routes.post('/medicos/delete', MedicoController.delete);
 routes.post('/medicos/search', MedicoController.search);
-
-
-//Diagnósticos
-routes.get('/diagnosticos', DiagnosticoController.index);
-routes.post('/diagnosticos/add', DiagnosticoController.store);
-routes.post('/diagnosticos/delete', DiagnosticoController.delete);
-routes.post('/diagnosticos/search', DiagnosticoController.search);
 
 
 //Turnos

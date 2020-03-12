@@ -52,16 +52,20 @@ export default function Consultas(){
     async function handleSubmit(e){     
         e.preventDefault();  
         
-        const response = await api.post('/consultas/add', consulta);
+        if(consulta.medico !== '' && consulta.paciente !== ''){
+            const response = await api.post('/consultas/add', consulta);
 
-        if(response.status === 200){
-            let aux = !updConsultas;
-            setUpd(aux);
-            setView(false);
-            setAdd(false);
+            if(response.status === 200){
+                let aux = !updConsultas;
+                setUpd(aux);
+                setView(false);
+                setAdd(false);
+            }else{
+                alert(response.data.message);
+            }    
         }else{
-            alert(response.data.message);
-        }    
+            alert('Selecione um médico e um paciente.');
+        }
     }
 
     async function handleDelete(){
@@ -77,15 +81,19 @@ export default function Consultas(){
     }
 
     async function handleUpdate(){
-        const response = await api.post('/consultas/update', consulta);
+        if(consulta.medico !== '' && consulta.paciente !== ''){
+            const response = await api.post('/consultas/update', consulta);
 
-        if(response.status === 200){
-            let aux = !updConsultas;
-            setUpd(aux);
-            setView(false);
+            if(response.status === 200){
+                let aux = !updConsultas;
+                setUpd(aux);
+                setView(false);
+            }else{
+                alert(response.data.message);
+            }      
         }else{
-            alert(response.data.message);
-        }      
+            alert('Selecione um médico e um paciente.');
+        }
     }
 
     function loadButton(){

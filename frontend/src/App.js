@@ -9,8 +9,8 @@ import Diagnosticos from './pages/Diagnosticos';
 import Turnos from './pages/Turnos';
 
 function App() {
-  const [page, setPage] = useState(<div>Home</div>);
-  const [active, setActive] = useState(1);
+  const [page, setPage] = useState(<Pacientes />);
+  const [active, setActive] = useState(2);
   
   function setClass(li){
     if(li === active)
@@ -54,9 +54,9 @@ function App() {
             <a href="https://www.freepik.com/free-photos-vectors/logo">Hospital Bela Vida</a>
           </div>
           <nav>
-            <li className={`${setClass(1)}`}>
+            {/* <li className={`${setClass(1)}`}>
   <a onClick={() => setPagina(1)}>Home</a>
-            </li>
+            </li> */}
             <li className={`${setClass(2)}`}>
               <a onClick={() => setPagina(2)}>Pacientes</a>
             </li>

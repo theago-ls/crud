@@ -25,10 +25,6 @@ img {
 	border: 0;
 }
 
-.App header, footer, section {
-    flex-shrink: 0;
-}
-
 .App {
     display: flex;  
 	flex-direction: column;	
@@ -140,9 +136,7 @@ footer {
     padding: 30px 0;
 	justify-content: center;
 	position: relative;
-	left: 0;
 	bottom: 0;
-	right: 0;
 }
 
 footer p {

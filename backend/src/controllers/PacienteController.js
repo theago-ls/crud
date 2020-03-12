@@ -3,7 +3,7 @@ const Paciente = require('../models/Paciente');
 module.exports = {
     async index(req, res) {
         try {
-            const pacientes = await Paciente.find({}).populate('diagnostico');
+            const pacientes = await Paciente.find({}).populate({path: 'medico', model: 'Medico'});
             return res.json(pacientes);
         } catch (err) {
             throw err;

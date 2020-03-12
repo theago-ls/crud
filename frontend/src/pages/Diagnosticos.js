@@ -7,7 +7,6 @@ import api from '../services/api';
 export default function Diagnosticos( props ){
     const [diagnostico, setDiag] = useState({
         medico: '',
-        paciente: '',
         doenca: '',
         estagio: '',
         observacao: '',
@@ -21,32 +20,14 @@ export default function Diagnosticos( props ){
 
 
     useEffect(() => {
-        async function fetchData(){
-            if(props.paciente){
-                const response = await api.get('/diagnosticos/search', props.paciente);
+        async function fetchData() {
+            const response = await api.get('/medicos');
 
-                if(response.status === 200){
-                    setDiags(response.data);
-                }else{
-                    alert(response.data.message);
-                }
-                                   
-                const response2 = await api.get('/medicos');
-
-                if(response2.status === 200){
-                    setMedicos(response2.data);
-                }else{
-                    alert(response2.data.message);
-                }  
-
-                const response3 = await api.get('/pacientes');
-
-                if(response3.status === 200){
-                    setPacientes(response3.data);
-                }else{
-                    alert(response3.data.message);
-                }  
-            }        
+            if (response.status === 200) {
+                setMedicos(response.data);
+            } else {
+                alert(response.data.message);
+            }
         }
 
         fetchData();
@@ -54,12 +35,12 @@ export default function Diagnosticos( props ){
 
     async function handleSubmit(e){     
         e.preventDefault();            
-        props.callbacks.setDiagnostico(diagnostico);
-        props.callbacks.setModal(false);        
+        props.callback.setDiagnostico(diagnostico);
+        props.callback.showModal(false);        
     }
 
     function loadButton(){
-        if(diagnostico){
+        if(diagnostico.medico !== ''){
             return (
                 <div className="buttonContainer">
                     <input id="voltar" type="button" value="Voltar" onClick={voltar}/>
@@ -70,23 +51,23 @@ export default function Diagnosticos( props ){
             return(
                 <div className="buttonContainer">
                     <input id="voltar" type="button" value="Voltar" onClick={voltar}/>
-                    <input id="enviar" type="submit" value="Salvar diagnostico" />
+                    <input id="enviar" type="submit" value="Salvar" />
                 </div>
             );
         }
     }
     
     function voltar(){
-        setAdd(false);
+        props.callback.showModal(false);
     }
 
     return(
         <div className="mainContainer">
-            <div >
+            <div>
                 <form className="formContainer" onSubmit={(e) => handleSubmit(e)}>
                     <div className="form-group">
                         <label htmlFor="medico">Médico:</label>
-                        <select id="medico" value={diagnostico.medico || ''} readOnly onChange={(e) => setDiag({ ...diagnostico, medico: e.target.value })} required >
+                        <select id="medico" value={props.paciente.diagnostico.medico || ''} readOnly onChange={(e) => setDiag({ ...diagnostico, medico: e.target.value })} required >
                             <option></option>
                             {medicosList.map(medico => (
                                 <option key={medico._id} value={medico._id}>{medico.nome}</option>
@@ -95,38 +76,28 @@ export default function Diagnosticos( props ){
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="paciente" >Paciente:</label>
-                        <select id="paciente" value={diagnostico.paciente || ''} readOnly onChange={(e) => setDiag({ ...diagnostico, paciente: e.target.value })} required >
-                            <option></option>
-                            {pacientesList.map(paciente => (
-                                <option key={paciente._id} value={paciente._id}>{paciente.nome}</option>
-                            ))}
-                        </select>                     
-                    </div>
-
-                    <div className="form-group">
                         <label htmlFor="doenca">Doença:</label>
-                        <input id="doenca" value={diagnostico.doenca || ''} type="select" onChange={(e) => setDiag({ ...diagnostico, doenca: e.target.value })} required />
+                        <input id="doenca" value={props.paciente.diagnostico.doenca || ''} type="select" onChange={(e) => setDiag({ ...diagnostico, doenca: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="estagio">Estágio:</label>
-                        <input id="estagio" value={diagnostico.estagio || ''} onChange={(e) => setDiag({ ...diagnostico, estagio: e.target.value })} required />
+                        <input id="estagio" value={props.paciente.diagnostico.estagio || ''} onChange={(e) => setDiag({ ...diagnostico, estagio: e.target.value })} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="observacao">Observação:</label>
-                        <input id="observacao" value={diagnostico.observacao || ''} onChange={(e) => setDiag({ ...diagnostico, observacao: e.target.value })} />
+                        <input id="observacao" value={props.paciente.diagnostico.observacao || ''} onChange={(e) => setDiag({ ...diagnostico, observacao: e.target.value })} />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="data">Data:</label>
-                        <input id="data" value={diagnostico.data || ''} onChange={(e) => setDiag({ ...diagnostico, data: { ...diagnostico.endereco, logradouro: e.target.value } })} required />
+                        <input type="date" id="data" value={props.paciente.diagnostico.data || ''} onChange={(e) => setDiag({ ...diagnostico, data: e.target.value })} required />
                     </div>
                     { loadButton()                    
                     }
                 </form>
-            </div>)}
+            </div>
         </div>
     );
 }

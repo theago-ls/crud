@@ -63,8 +63,30 @@ const PacienteSchema = new Schema({
     },
 
     diagnostico: {
-        type: Schema.Types.ObjectId,
-        ref: 'Diagnostico',        
+        medico: {
+            type: Schema.Types.ObjectId,
+            ref: 'Medico',
+            required: true,
+        },   
+    
+        doenca: {
+            type: String,
+            required: true,
+        },
+    
+        estagio: {
+            type: String,
+            required: true,
+        },
+    
+        observacao: {
+            type: String,
+        },
+    
+        data: {
+            type: String,
+            required: true
+        },       
     },
 });
 

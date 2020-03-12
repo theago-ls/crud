@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import './styles.css';
 
 import api from '../services/api';
-import { Modal } from 'react-bootstrap';
 
 import Diagnostico from './Diagnosticos';
 
@@ -154,10 +153,15 @@ export default function Pacientes(){
         setPaciente({...paciente, diagnostico: diagnostico});
     }
 
+    function showModal(modal){
+        setModal(modal);
+        setView(!modal);       
+    }
+
     return(
         <div className="mainContainer">
             <div>                                      
-                {!viewPaciente && (
+                {!viewPaciente && !modal && (
                     <div>
                         <table id="tabela">
                             <tbody>
@@ -182,7 +186,7 @@ export default function Pacientes(){
                     )                        
                 }                                     
             </div>
-            {(viewPaciente || addPaciente) && (<div >
+            {(viewPaciente && !modal) && (<div >
                 <form className="formContainer" onSubmit={(e) => handleSubmit(e)}>
                     <div className="form-group">
                         <label htmlFor="nome" >Nome:</label>
@@ -246,21 +250,13 @@ export default function Pacientes(){
 
                     <div className="form-group">
                         <label htmlFor="diagnostico">Diagnóstico:</label>
-                        <button id="diagnostico" onClick={(e) => setModal(true)} >Adicionar</button>
-                    </div>
-                    {modal && (
-                        <Modal show={modal} onHide={() => setModal(false)}>
-                            <Modal.Header>
-                                Diagnóstico
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Diagnostico paciente={paciente} callback={setDiagnostico, setModal}/>
-                            </Modal.Body>
-                        </Modal>)}
+                        <button id="diagnostico" onClick={(e) => showModal(true)} >Adicionar</button>
+                    </div>                              
                     { loadButton()                    
                     }
                 </form>
-            </div>)}
+            </div>)}  
+            {modal && (<Diagnostico paciente={paciente} callback={{setDiagnostico, showModal}}/>)}               
         </div>
     );
 }
