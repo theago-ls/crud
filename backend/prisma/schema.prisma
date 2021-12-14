@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  CPF          String    @unique
+  street       String
+  street2      String?
+  number       Int
+  zipcode      String
+  neighborhood String
+  city         String
+  state        String
+  nurse        Nurse[]
+  doctor       Doctor[]
+  patient      Patient[]
+}
+
+model Nurse {
+  CPF           String   @unique
+  name          String
+  gender        String
+  phone         String
+  dob           DateTime
+  admissionDate DateTime
+  expertise     String
+  address       Address  @relation(references: [CPF], fields: [addressId])
+  addressId     String
+}
+
+model Appointment {
+  id         Int      @id @default(autoincrement())
+  date       DateTime
+  type       String
+  doctor     Doctor   @relation(fields: [doctorCPF], references: [CPF])
+  patient    Patient  @relation(fields: [patientCPF], references: [CPF])
+  doctorCPF  String   @unique
+  patientCPF String   @unique
+}
+
+model Doctor {
+  CRM           String
+  CPF           String        @unique
+  name          String
+  gender        String
+  phone         String
+  dob           DateTime
+  admissionDate DateTime
+  expertise     String
+  appointment   Appointment[]
+  address       Address       @relation(fields: [addressCPF], references: [CPF])
+  addressCPF    String
+}
+
+model Patient {
+  CPF         String        @unique
+  name        String
+  gender      String
+  phone       String
+  dob         DateTime
+  diagnosis   String?
+  address     Address       @relation(fields: [addressId], references: [CPF])
+  appointment Appointment[]
+  addressId   String
+}
+
+model Shift {
+  CPF      String @unique
+  checkIn  String
+  checkOut String
+}
