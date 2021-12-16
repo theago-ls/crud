@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: postgres
+    volumes:
+      - data=/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=hospital
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rootpassword
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+      target: dev
+    volumes:
+      - ./backend/src:/home/node/app/src
+    container_name: backend
+    expose:
+      - 3001
+    ports:
+      - 4000:4000
+      - 3001:3001
