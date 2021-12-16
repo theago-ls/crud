@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import db from '../database';
 
-module.exports = {
+export default {
   async index(req: Request, res: Response) {
     try {
       const shiftList = await db.shift.findMany();

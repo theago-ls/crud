@@ -1,7 +1,7 @@
 import db from '../database';
 import { Request, Response } from 'express';
 
-module.exports = {
+export default {
   async index(req: Request, res: Response) {
     try {
       const appointmentList = await db.appointment.findMany();
