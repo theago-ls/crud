@@ -7,6 +7,7 @@ export default {
       const doctorList = await db.doctor.findMany();
       return res.json(doctorList);
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -24,6 +25,7 @@ export default {
         return res.json(doctorExists);
       }
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
 
@@ -45,6 +47,7 @@ export default {
       if (newMedico) return res.json(newMedico);
       else return res.status(500).json({ message: 'Doctor saving failed!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -62,6 +65,7 @@ export default {
       if (doctorExists) return res.json(doctorExists);
       else return res.json({ message: 'Doctor was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -77,6 +81,7 @@ export default {
 
       return res.json({ message: 'Doctor was deleted successfully!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(404).json({ message: 'Doctor was not found!' });
     }
   },
@@ -93,6 +98,7 @@ export default {
         return res.json(doctorExists);
       } else return res.status(404).json({ message: 'Doctor was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },

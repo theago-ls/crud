@@ -7,6 +7,7 @@ export default {
       const nurseList = await db.nurse.findMany();
       return res.json(nurseList);
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -24,6 +25,7 @@ export default {
         return res.json(nurseExists);
       }
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
 
@@ -45,6 +47,7 @@ export default {
       if (createdNurse) return res.json(createdNurse);
       else return res.status(500).json({ message: 'Nurse saving failed!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -62,6 +65,7 @@ export default {
       if (nurseExists) return res.json(nurseExists);
       else return res.status(404).json({ message: 'Nurse was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -77,6 +81,7 @@ export default {
 
       return res.json({ message: 'Nurse was deleted successfully!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(404).json({ message: 'Nurse was not found!' });
     }
   },
@@ -92,6 +97,7 @@ export default {
       if (nurseExists) return res.json(nurseExists);
       else return res.status(404).json({ message: 'Nurse was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },

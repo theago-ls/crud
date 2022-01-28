@@ -7,6 +7,7 @@ export default {
       const shiftList = await db.shift.findMany();
       return res.json(shiftList);
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -24,6 +25,7 @@ export default {
         return res.json(shiftExists);
       }
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
 
@@ -45,6 +47,7 @@ export default {
       if (createdShift) return res.json(createdShift);
       else return res.status(500).json({ message: 'Shift saving failed!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -62,6 +65,7 @@ export default {
       if (shiftExists) return res.json(shiftExists);
       else return res.status(404).json({ message: 'Shift was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -75,6 +79,7 @@ export default {
       if (deletedTurno) return res.json(deletedTurno);
       else return res.status(404).json({ message: 'Shift was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },

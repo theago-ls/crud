@@ -7,6 +7,7 @@ export default {
       const appointmentList = await db.appointment.findMany();
       return res.json(appointmentList);
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -27,6 +28,7 @@ export default {
         return res.json(appointmentExists);
       }
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
 
@@ -67,6 +69,7 @@ export default {
       if (newConsulta) return res.json(newConsulta);
       else return res.status(500).json({ message: 'Appointment saving failed' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -88,6 +91,7 @@ export default {
       if (appointmentExists) return res.json(appointmentExists);
       else return res.status(404).json({ message: 'Appointment was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -105,6 +109,7 @@ export default {
       if (deletedAppointment) return res.json(deletedAppointment);
       else return res.status(404).json({ message: 'Appointment was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
@@ -123,6 +128,7 @@ export default {
       if (appointmentExists) return res.json(appointmentExists);
       else return res.status(404).json({ message: 'Appointment was not found!' });
     } catch (err) {
+      console.log('Error: ', err);
       return res.status(500).json({ message: 'Error processing your request. Please, try again later!' });
     }
   },
